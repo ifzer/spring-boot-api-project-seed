@@ -1,4 +1,4 @@
-package com.company.project.core;
+package com.ifzer.senapi.core;
 
 import org.apache.ibatis.exceptions.TooManyResultsException;
 import tk.mybatis.mapper.entity.Condition;

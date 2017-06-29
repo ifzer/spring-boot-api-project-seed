@@ -1,8 +1,11 @@
-import com.company.project.core.ProjectConstant;
+import com.ifzer.senapi.core.ProjectConstant;
 import freemarker.template.TemplateExceptionHandler;
+import org.apache.commons.lang3.StringUtils;
 import org.mybatis.generator.api.MyBatisGenerator;
 import org.mybatis.generator.config.*;
 import org.mybatis.generator.internal.DefaultShellCallback;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -14,10 +17,11 @@ import java.util.*;
  * 代码生成器，根据数据表名称生成对应的Model、Mapper、Service、Controller简化开发。
  */
 public abstract class CodeGenerator {
+    public static final Logger LOGGER = LoggerFactory.getLogger(CodeGenerator.class);
     //JDBC配置，请修改为你项目的实际配置
-    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/test";
+    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/springbootseed";
     private static final String JDBC_USERNAME = "root";
-    private static final String JDBC_PASSWORD = "123456";
+    private static final String JDBC_PASSWORD = "";
     private static final String JDBC_DIVER_CLASS_NAME = "com.mysql.jdbc.Driver";
 
     private static final String PROJECT_PATH = System.getProperty("user.dir");//项目在硬盘上的基础路径
@@ -26,7 +30,7 @@ public abstract class CodeGenerator {
     private static final String JAVA_PATH = "\\src\\main\\java"; //java文件路径
     private static final String RESOURCES_PATH = "\\src\\main\\resources";//资源文件路径
 
-    private static final String BASE_PACKAGE_PATH = "\\com\\company\\project";//项目基础包路径
+    private static final String BASE_PACKAGE_PATH = "\\com\\ifzer\\senapi";//项目基础包路径
     private static final String PACKAGE_PATH_SERVICE = BASE_PACKAGE_PATH + "\\service\\";//生成的Service存放路径
     private static final String PACKAGE_PATH_SERVICE_IMPL = BASE_PACKAGE_PATH + "\\service\\impl\\";//生成的Service实现存放路径
     private static final String PACKAGE_PATH_CONTROLLER = BASE_PACKAGE_PATH + "\\web\\";//生成的Controller实现存放路径
@@ -35,11 +39,15 @@ public abstract class CodeGenerator {
     private static final String DATE = new SimpleDateFormat("yyyy/MM/dd").format(new Date());//@date
 
     public static void main(String[] args) {
-        genCode("输入表名");
+        genCode("user");
     }
 
 
     public static void genCode(String... tableNames) {
+        if(tableNames == null || StringUtils.equals("请输入表名", tableNames[0])){
+            LOGGER.error("请输入表名......");
+            return;
+        }
         for (String tableName : tableNames) {
             //根据需求生成，不需要的注掉，模板有问题的话可以自己修改。
             genModelAndMapper(tableName);

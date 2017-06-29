@@ -1,13 +1,13 @@
-package com.company.project.configurer;
+package com.ifzer.senapi.configurer;
 
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter4;
-import com.company.project.core.Result;
-import com.company.project.core.ResultCode;
-import com.company.project.core.ServiceException;
+import com.ifzer.senapi.core.Result;
+import com.ifzer.senapi.core.ResultCode;
+import com.ifzer.senapi.core.ServiceException;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -49,6 +49,7 @@ public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
         FastJsonConfig config = new FastJsonConfig();
         config.setSerializerFeatures(SerializerFeature.WriteMapNullValue,//保留空的字段
                 SerializerFeature.WriteNullStringAsEmpty,//String null -> ""
+                SerializerFeature.WriteDateUseDateFormat,//用默认的日期格式
                 SerializerFeature.WriteNullNumberAsZero);//Number null -> 0
         converter.setFastJsonConfig(config);
         converter.setDefaultCharset(Charset.forName("UTF-8"));
